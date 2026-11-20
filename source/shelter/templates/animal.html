@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% from '_macros.html' import status,art %}
+{% block content %}
+  <a class="back-link" href="{{ url_for('web.browse') }}">← All animals</a>
+  <div class="detail-grid">
+    <div>{{ art(animal,true) }}</div>
+    <section class="animal-story">
+      <span class="eyebrow">MEET YOUR POSSIBLE PLUS ONE</span>
+      <h1>{{ animal.name }}</h1>
+      {{ status(animal.status) }}
+      <p class="lead mt-4">{{ animal.breed }} · {{ animal.age_label }} · {{ animal.sex }}</p>
+      <h3>A little about me</h3>
+      <p class="preserve">{{ animal.description }}</p>
+      <div class="detail-action">
+        {% if g.user and g.user.role=="staff" %}
+          <a class="btn btn-primary"
+             href="{{ url_for('web.edit_animal',id=animal.id) }}">Edit profile</a>
+          <a class="btn btn-outline-dark"
+             href="{{ url_for('web.medical',animal_id=animal.id) }}">Add medical record</a>
+        {% elif existing %}
+          <a class="btn btn-primary"
+             href="{{ url_for('web.application',id=existing.id) }}">View your application</a>
+        {% elif animal.is_available() %}
+          <a class="btn btn-primary"
+             href="{{ url_for('web.apply',id=animal.id) }}">Apply to adopt {{ animal.name }}</a>
+          <p class="form-text mt-3">An application starts a conversation. Staff review every application before confirming a placement.</p>
+        {% else %}
+          <p>{{ animal.name }} is {{'matched with an approved adopter' if animal.status=='pending' else 'already adopted'}} and is not accepting new applications.</p>
+        {% endif %}
+      </div>
+    </section>
+  </div>
+  {% if g.user and g.user.role=="staff" %}
+    <section class="panel mt-5">
+      <div class="panel-heading">
+        <h2>Medical records</h2>
+        <span class="muted">Staff only</span>
+      </div>
+      {% for m in medical %}
+        <div class="record-row">
+          <div>
+            <strong>{{ m.kind }} · {{ m.record_date }}</strong>
+            <p class="preserve mb-0">{{ m.notes }}</p>
+          </div>
+          <a href="{{ url_for('web.medical',animal_id=animal.id,id=m.id) }}">Edit</a>
+        </div>
+      {% else %}
+        <p class="padded muted">No medical records have been entered.</p>
+      {% endfor %}
+    </section>
+  {% endif %}
+{% endblock %}

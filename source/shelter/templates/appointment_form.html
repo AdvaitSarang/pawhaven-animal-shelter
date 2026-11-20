@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% from '_macros.html' import csrf %}
+{% block content %}
+  <a class="back-link"
+     href="{{ url_for('web.application',id=app_record.id) }}">← Application #{{ app_record.id }}</a>
+  <section class="form-card wide">
+    <span class="eyebrow">MEET AND GREET</span>
+    <h1>{{'Reschedule your visit.' if record else 'Make time to meet.'}}</h1>
+    <p>{{ app_record.animal.name }} · {{ app_record.user.name }}</p>
+    <form method="post">{{ csrf() }}{% if record %}
+      <input type="hidden" name="version" value="{{ record.version }}">
+{% endif %}
+<label>
+  Visit date and time<input class="form-control"
+       type="datetime-local"
+       step="1800"
+       name="starts_at"
+       value="{{ record.starts_at.strftime('%Y-%m-%dT%H:%M') if record else '' }}"
+       required>
+</label>
+<p class="form-text">Shelter local time: America/Chicago. Visits last 30 minutes; choose 10:00 AM–4:30 PM within the next 180 days. One visit can occupy a time slot.</p>
+<label>
+  Visit notes (optional)<textarea class="form-control"
+          name="notes"
+          maxlength="500"
+          rows="3">{{record.notes if record else ''}}</textarea>
+</label>
+<button class="btn btn-primary">{{'Save new time' if record else 'Schedule visit'}}</button>
+</form>
+</section>
+{% endblock %}

@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 360" role="img" aria-label="Dog illustration">
+<ellipse cx="215" cy="338" rx="127" ry="13" fill="#d4c3a7"/>
+<path d="M279 287Q357 243 341 207Q374 239 339 289L287 317" fill="#986440"/>
+<path d="M129 335L134 246Q144 199 210 202Q276 201 287 255L301 335Z" fill="#bc8953"/>
+<path d="M167 333L170 262Q212 284 249 259L256 333Z" fill="#f7e8cd"/>
+<path d="M127 133Q89 116 78 158Q62 227 110 239L148 182M289 133Q330 113 342 159Q358 225 310 239L276 178" fill="#855234"/>
+<path d="M119 162Q122 89 208 87Q297 87 302 162L291 210Q267 251 211 251Q154 251 130 213Z" fill="#c89359"/>
+<path d="M210 98L193 189Q174 194 167 211Q169 247 211 251Q253 247 254 213Q247 192 228 188Z" fill="#f5e7d0"/>
+<ellipse cx="164" cy="171" rx="7" ry="10" fill="#303d32"/><ellipse cx="256" cy="171" rx="7" ry="10" fill="#303d32"/>
+<path d="M195 204Q210 197 225 204Q222 220 210 221Q197 219 195 204" fill="#303d32"/>
+<path d="M210 219V229M210 229Q195 241 187 229M210 229Q223 241 233 229" stroke="#303d32" stroke-width="4" fill="none" stroke-linecap="round"/>
+<path d="M145 241Q210 270 280 241L277 260Q211 284 146 261Z" fill="#315e4b"/>
+<circle cx="212" cy="272" r="12" fill="#d4ac56"/>
+<path d="M140 285L136 336M280 285L285 336" stroke="#986440" stroke-width="5" stroke-linecap="round"/>
+</svg>

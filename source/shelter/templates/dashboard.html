@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% from '_macros.html' import applications_table,visits_table %}
+{% block content %}
+  <div class="page-heading">
+    <div>
+      <span class="eyebrow">YOUR ADOPTION JOURNEY</span>
+      <h1>Hello, {{ g.user.name }}.</h1>
+      <p class="muted">Your applications and upcoming visits, all in one place.</p>
+    </div>
+    <a class="btn btn-primary" href="{{ url_for('web.browse') }}">Browse animals</a>
+  </div>
+  <section class="panel">
+    <div class="panel-heading">
+      <h2>My applications</h2>
+      <span class="muted">{{ applications|length }} total</span>
+    </div>
+    {{ applications_table(applications) }}
+  </section>
+  <section class="panel mt-4">
+    <div class="panel-heading">
+      <h2>My visits</h2>
+    </div>
+    {{ visits_table(appointments) }}
+  </section>
+{% endblock %}

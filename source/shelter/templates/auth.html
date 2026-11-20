@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% from '_macros.html' import csrf %}
+{% block content %}
+  <div class="auth-layout">
+    <div class="auth-intro">
+      <span class="eyebrow">GOOD MATCHES START HERE</span>
+      <h1>{{'Your next chapter\nstarts with a hello.' if register else 'Welcome back.'}}</h1>
+      <p>{{'Create an adopter account to apply, follow your application and arrange a visit.' if register else 'Sign in to continue your adoption journey or open your shelter workspace.'}}</p>
+      <img src="{{ url_for('static',filename='cat.svg') }}"
+           alt="Illustrated cat">
+    </div>
+    <section class="form-card">
+      <h2>{{'Create your account' if register else 'Sign in'}}</h2>
+      <p class="muted">{{'All fields are required.' if register else 'Adopters and staff use the same sign-in form.'}}</p>
+      <form method="post">{{ csrf() }}{% if register %}
+        <label>
+          Full name<input class="form-control"
+       name="name"
+       required
+       maxlength="100"
+       autocomplete="name">
+        </label>
+{% endif %}
+<label>
+  Email address<input class="form-control"
+       type="email"
+       name="email"
+       required
+       maxlength="180"
+       autocomplete="email">
+</label>
+<label>
+  Password<input class="form-control"
+       type="password"
+       name="password"
+       required
+       minlength="{{ 10 if register else 1 }}"
+       maxlength="128"
+       autocomplete="{{'new-password' if register else 'current-password'}}">
+</label>
+{% if register %}
+  <p class="form-text">Use 10–128 characters. Staff accounts are provisioned by the shelter administrator.</p>
+{% endif %}
+<button class="btn btn-primary w-100">{{'Create account' if register else 'Sign in'}}</button>
+</form>
+<p class="mt-4 mb-0">
+  {{'Already have an account?' if register else 'New here?'}} <a href="{{ url_for('web.login' if register else 'web.register') }}">{{'Sign in' if register else 'Create an account'}}</a>
+</p>
+</section>
+</div>
+{% endblock %}

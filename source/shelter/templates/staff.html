@@ -1,0 +1,121 @@
+{% extends "base.html" %}
+{% from '_macros.html' import status,applications_table,visits_table %}
+{% block content %}
+  <div class="page-heading">
+    <div>
+      <span class="eyebrow">SHELTER WORKSPACE</span>
+      <h1>A little care, every day.</h1>
+      <p class="muted">Manage the animals, the people and the next steps.</p>
+    </div>
+    <a class="btn btn-primary" href="{{ url_for('web.edit_animal') }}">+ Add animal</a>
+  </div>
+  <div class="metrics">
+    <div>
+      <span>Available animals</span>
+      <strong>{{ available }}</strong>
+    </div>
+    <div>
+      <span>Applications to review</span>
+      <strong>{{ pending }}</strong>
+    </div>
+    <div>
+      <span>Scheduled visits</span>
+      <strong>{{ appointments|length }}</strong>
+    </div>
+    <div>
+      <span>Completed adoptions</span>
+      <strong>{{ adoptions|length }}</strong>
+    </div>
+  </div>
+  <nav class="section-nav" aria-label="Shelter sections">
+    <a href="#applications">Applications</a>
+    <a href="#animals">Animal records</a>
+    <a href="#appointments">Appointments</a>
+    <a href="#history">Adoption history</a>
+  </nav>
+  <section id="applications" class="panel">
+    <div class="panel-heading">
+      <h2>Adoption applications</h2>
+      <span class="muted">{{ pending }} awaiting review</span>
+    </div>
+    {{ applications_table(applications,true) }}
+  </section>
+  <section id="animals" class="panel mt-4">
+    <div class="panel-heading">
+      <h2>Animal records</h2>
+    </div>
+    <div class="table-responsive">
+      <table class="table align-middle">
+        <thead>
+          <tr>
+            <th>Animal</th>
+            <th>Species / breed</th>
+            <th>Age</th>
+            <th>Status</th>
+            <th>Records</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for a in animals %}
+            <tr>
+              <td>
+                <strong>{{ a.name }}</strong>
+                <small>#{{ a.id }} · {{ a.sex }}</small>
+              </td>
+              <td>{{ a.species }} · {{ a.breed }}</td>
+              <td>{{ a.age_label }}</td>
+              <td>{{ status(a.status) }}</td>
+              <td>
+                <a href="{{ url_for('web.animal_detail',id=a.id) }}">Profile & medical</a>
+              </td>
+            </tr>
+          {% else %}
+            <tr>
+              <td colspan="5">No animals yet. Add your first animal above.</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </section>
+  <section id="appointments" class="panel mt-4">
+    <div class="panel-heading">
+      <h2>Scheduled appointments</h2>
+    </div>
+    {{ visits_table(appointments) }}
+  </section>
+  <section id="history" class="panel mt-4">
+    <div class="panel-heading">
+      <h2>Adoption history</h2>
+      <span class="muted">Completed placements</span>
+    </div>
+    {% if adoptions %}
+      <div class="table-responsive">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Animal</th>
+              <th>Adopter</th>
+              <th>Adoption date (UTC)</th>
+              <th>Application</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for adoption in adoptions %}
+              <tr>
+                <td>{{ adoption.animal.name }}</td>
+                <td>{{ adoption.adopter.name }}</td>
+                <td>{{ adoption.adopted_at.strftime("%d %b %Y") }}</td>
+                <td>
+                  <a href="{{ url_for('web.application',id=adoption.application_id) }}">#{{ adoption.application_id }}</a>
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    {% else %}
+      <p class="muted padded">Completed adoptions will appear here.</p>
+    {% endif %}
+  </section>
+{% endblock %}

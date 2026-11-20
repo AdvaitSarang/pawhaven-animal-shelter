@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% from '_macros.html' import csrf %}
+{% block content %}
+  <a class="back-link"
+     href="{{ url_for('web.animal_detail',id=animal.id) }}">← Back to {{ animal.name }}</a>
+  <section class="form-card wide">
+    <span class="eyebrow">ADOPTION APPLICATION</span>
+    <h1>A home for {{ animal.name }}.</h1>
+    <p>Applying as <strong>{{ g.user.name }}</strong> · {{ g.user.email }}</p>
+    <form method="post">
+      {{ csrf() }}<label>Contact phone<input class="form-control"
+       name="phone"
+       type="tel"
+       required
+       minlength="7"
+       maxlength="30"
+       autocomplete="tel">
+      </label>
+      <label>
+        Housing arrangement<select class="form-select" name="housing" required>
+        <option value="">Choose an option</option>
+        {% for h in ['Own home','Rent with permission','Other approved housing'] %}
+          <option>{{ h }}</option>
+        {% endfor %}
+        </select>
+      </label>
+      <label>
+        Tell us about the home and care you can offer<textarea class="form-control" name="reason" rows="5" minlength="20" maxlength="2000" required placeholder="Daily routine, experience with animals, and how this companion would fit into your home.">
+</textarea>
+      </label>
+      <p class="form-text">One application per animal per adopter. Submitting does not reserve the animal; staff approval confirms a match.</p>
+      <button class="btn btn-primary">Submit application</button>
+    </form>
+  </section>
+{% endblock %}

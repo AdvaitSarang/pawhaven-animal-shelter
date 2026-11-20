@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 360" role="img" aria-label="Rabbit illustration">
+<ellipse cx="208" cy="338" rx="116" ry="12" fill="#d3c5d2"/>
+<circle cx="298" cy="303" r="31" fill="#f6f0e8"/>
+<ellipse cx="210" cy="273" rx="86" ry="66" fill="#d0bfb0"/>
+<path d="M156 169Q111 48 148 35Q182 28 184 166M235 168Q248 29 281 39Q316 51 262 179" fill="#d0bfb0"/>
+<path d="M163 150Q135 62 150 57Q166 54 171 150M248 151Q263 61 277 61Q291 65 259 153" fill="#d99e99"/>
+<ellipse cx="211" cy="204" rx="80" ry="65" fill="#e4d7c8"/>
+<ellipse cx="171" cy="199" rx="7" ry="10" fill="#403f3b"/><ellipse cx="252" cy="199" rx="7" ry="10" fill="#403f3b"/>
+<path d="M200 221Q211 215 223 221L212 232Z" fill="#b77d78"/>
+<path d="M212 232V240M212 240Q201 248 192 239M212 240Q223 249 232 239" fill="none" stroke="#6b605a" stroke-width="3" stroke-linecap="round"/>
+<path d="M166 223L111 215M165 233L106 238M256 223L311 214M256 234L315 240" stroke="#b5a59a" stroke-width="3"/>
+<ellipse cx="164" cy="324" rx="40" ry="17" fill="#e4d7c8"/><ellipse cx="255" cy="324" rx="40" ry="17" fill="#e4d7c8"/>
+<path d="M180 274L173 314M242 274L248 314" stroke="#b5a59a" stroke-width="4" stroke-linecap="round"/>
+</svg>

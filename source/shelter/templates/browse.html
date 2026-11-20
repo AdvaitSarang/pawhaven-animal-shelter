@@ -1,0 +1,121 @@
+{% extends "base.html" %}
+{% from '_macros.html' import status,art %}
+{% block content %}
+  <section class="hero">
+    <div>
+      <span class="eyebrow">A PLACE TO BEGIN AGAIN</span>
+      <h1>
+        A little room.
+        <br>
+        A lot of love.
+      </h1>
+      <p>Meet the animals in our care. Find a companion, learn their story, and take the first step toward a home together.</p>
+      <a href="#animals" class="btn btn-primary">Meet the animals <span aria-hidden="true">↗</span>
+      </a>
+    </div>
+    <div class="hero-art">
+      <img src="{{ url_for('static',filename='dog.svg') }}"
+           alt="Illustrated dog">
+      <div class="hero-note">
+        <strong>{{ available }} companions</strong>
+        <span>currently accepting applications</span>
+      </div>
+    </div>
+  </section>
+  <section id="animals">
+    <div class="section-heading">
+      <div>
+        <span class="eyebrow">FIND YOUR COMPANION</span>
+        <h2>Good company is waiting.</h2>
+      </div>
+      <span class="muted">{{ animals|length }} matching {{'animal' if animals|length==1 else 'animals'}}</span>
+    </div>
+    <form class="filter-bar" method="get">
+      <label>
+        Search name or breed<input class="form-control"
+       name="q"
+       value="{{ term }}"
+       placeholder="Try Maple or Labrador">
+      </label>
+      <label>
+        Species<select class="form-select" name="species">
+        <option value="">All species</option>
+        {% for s in ['Dog','Cat','Rabbit'] %}
+          <option {{ 'selected' if request.args.get("species")==s}}>{{ s }}</option>
+        {% endfor %}
+        </select>
+      </label>
+      <label>
+        Sex<select class="form-select" name="sex">
+        <option value="">Any</option>
+        {% for s in ['Female','Male','Unknown'] %}
+          <option {{ 'selected' if request.args.get("sex")==s}}>{{ s }}</option>
+        {% endfor %}
+        </select>
+      </label>
+      <label>
+        Maximum age (months)<input class="form-control"
+       type="number"
+       min="0"
+       max="600"
+       name="max_age"
+       value="{{ request.args.get('max_age', '') }}"
+       placeholder="Any">
+      </label>
+      <label>
+        Status<select class="form-select" name="status">
+        {% for s in ['available','pending','adopted','all'] %}
+          <option value="{{ s }}" {{'selected' if selected_status==s}}>{{ s|title }}</option>
+        {% endfor %}
+        </select>
+      </label>
+      <button class="btn btn-dark">Filter</button>
+      <a class="text-link" href="{{ url_for('web.browse') }}">Reset</a>
+    </form>
+    <div class="animal-grid">
+      {% for animal in animals %}
+        <article class="animal-card">
+          <a href="{{ url_for('web.animal_detail',id=animal.id) }}"
+             aria-label="Meet {{ animal.name }}">{{ art(animal) }}</a>
+          <div class="animal-copy">
+            <div class="d-flex justify-content-between align-items-center">
+              <h3>
+                <a href="{{ url_for('web.animal_detail',id=animal.id) }}">{{ animal.name }}</a>
+              </h3>
+              {{ status(animal.status) }}
+            </div>
+            <p>{{ animal.breed }} · {{ animal.age_label }} · {{ animal.sex }}</p>
+            <a class="text-link"
+               href="{{ url_for('web.animal_detail',id=animal.id) }}">Meet {{ animal.name }} <span aria-hidden="true">→</span>
+            </a>
+          </div>
+        </article>
+      {% else %}
+        <div class="empty">
+          <h3>No matches this time</h3>
+          <p>Try another filter or reset your search.</p>
+        </div>
+      {% endfor %}
+    </div>
+  </section>
+  <section class="how-it-works">
+    <h2>From hello to home.</h2>
+    <div class="row g-4">
+      <div class="col-md-4">
+        <span class="step-number">01</span>
+        <h3>Find a connection</h3>
+        <p>Browse the animals and read about their needs.</p>
+      </div>
+      <div class="col-md-4">
+        <span class="step-number">02</span>
+        <h3>Tell us about you</h3>
+        <p>Create an account and submit a thoughtful application.</p>
+      </div>
+      <div class="col-md-4">
+        <span class="step-number">03</span>
+        <h3>Meet, then make it home</h3>
+        <p>Arrange a visit and work with staff to complete the adoption.</p>
+      </div>
+    </div>
+  </section>
+{% endblock %}

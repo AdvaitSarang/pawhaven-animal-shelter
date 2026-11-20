@@ -1,0 +1,98 @@
+{% macro csrf() %}
+  <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+{% endmacro %}
+{% macro status(value) %}
+  <span class="status {{ value }}">
+    <span aria-hidden="true">●</span> {{ value|title }}</span>
+{% endmacro %}
+{% macro art(animal,large=false) %}
+  {% set photos = {
+    'maple': {'file': 'maple.jpg', 'species': 'Dog'},
+    'milo': {'file': 'milo.jpg', 'species': 'Cat'},
+    'clover': {'file': 'clover.jpg', 'species': 'Rabbit'},
+    'benny': {'file': 'benny.jpg', 'species': 'Dog'},
+    'olive': {'file': 'olive.jpg', 'species': 'Cat'},
+    'teddy': {'file': 'teddy.jpg', 'species': 'Dog'}
+  } %}
+  {% set photo = photos.get(animal.name|trim|lower) %}
+  {% set has_photo = photo and photo.species == animal.species %}
+  <div class="pet-art {{ animal.species|lower }} {{ 'large' if large else '' }} {{ 'has-photo photo-'+photo.file[:-4] if has_photo else '' }}">
+    {% if has_photo %}
+      <img src="{{ url_for('static',filename='photos/'+photo.file) }}"
+           alt="{{ animal.name }}, {{ animal.breed }} (sample photo)"
+           loading="{{ 'eager' if large else 'lazy' }}" decoding="async">
+    {% else %}
+      <img src="{{ url_for('static',filename=animal.species|lower+'.svg') }}"
+           alt="{{ animal.species }} illustration">
+      <span class="art-note">{{ animal.species }} · Illustration</span>
+    {% endif %}
+  </div>
+{% endmacro %}
+{% macro applications_table(records,staff=false) %}
+  {% if records %}
+    <div class="table-responsive">
+      <table class="table align-middle">
+        <thead>
+          <tr>
+            <th>Application</th>
+            <th>{{'Adopter' if staff else 'Animal'}}</th>
+            <th>Submitted</th>
+            <th>Status</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for a in records %}
+            <tr>
+              <td>
+                <strong>#{{ a.id }} · {{ a.animal.name }}</strong>
+                <small>{{ a.animal.breed }}</small>
+              </td>
+              <td>{{ a.user.name if staff else a.animal.species }}</td>
+              <td>{{ a.created_at.strftime("%d %b %Y") }}</td>
+              <td>{{ status(a.status) }}</td>
+              <td>
+                <a class="text-link" href="{{ url_for('web.application',id=a.id) }}">View application →</a>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  {% else %}
+    <div class="empty">
+      <h3>No applications yet</h3>
+      <p>Applications will appear here when an adopter submits one.</p>
+    </div>
+  {% endif %}
+{% endmacro %}
+{% macro visits_table(records) %}
+  {% if records %}
+    <div class="table-responsive">
+      <table class="table align-middle">
+        <thead>
+          <tr>
+            <th>Animal</th>
+            <th>Visit time · America/Chicago</th>
+            <th>Status</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for visit in records %}
+            <tr>
+              <td>{{ visit.application.animal.name }}</td>
+              <td>{{ visit.starts_at.strftime("%d %b %Y, %I:%M %p") }}</td>
+              <td>{{ status(visit.status) }}</td>
+              <td>
+                <a href="{{ url_for('web.application',id=visit.application_id) }}">View details</a>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  {% else %}
+    <p class="muted padded">No visits scheduled yet.</p>
+  {% endif %}
+{% endmacro %}

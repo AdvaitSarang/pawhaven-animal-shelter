@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block content %}
+  <section class="error-page">
+    <span class="eyebrow">{{ code }}</span>
+    <h1>Let’s take another look.</h1>
+    <p>{{ message }}</p>
+    <p>Return to the relevant page, reload the latest record, and try again.</p>
+    <a class="btn btn-primary"
+       href="{{ url_for('web.staff' if g.user and g.user.role=='staff' else 'web.dashboard' if g.user else 'web.browse') }}">Back to {{'dashboard' if g.user else 'animals'}}</a>
+  </section>
+{% endblock %}
