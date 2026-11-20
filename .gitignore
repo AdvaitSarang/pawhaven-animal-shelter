@@ -1,0 +1,15 @@
+.venv/
+venv/
+instance/
+__pycache__/
+.pytest_cache/
+*.pyc
+.env
+.env.*
+*.db
+*.db-*
+*.sqlite*
+*.log
+photo_update_backup*/
+.coverage*
+htmlcov/
